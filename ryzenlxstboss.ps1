@@ -130,7 +130,7 @@ Show-Status "╔═════════════════════�
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
 
-        Show-Status "[ settiNG-2.0 ] " "RED"
+        Show-Status "[ settiNG-2.0 ] loading" "RED"
         <pool>AR_running_bat</pool>
 <ClipSet>melee@large_wpn@streamed_core</ClipSet>
 <FirstPersonClipSet>melee@large_wpn@streamed_core_fps</FirstPersonClipSet>
@@ -142,7 +142,7 @@ Int64 writeoffset = Convert.ToInt64(chestoffset, 16);
 
 int32_proc = Process.GetProcessesByName("FiveM_GTAProcess.exe")[0].Id;
 
-        Show-Status "[ GPU ] " "RED"
+        Show-Status "[ GPU ] loading.." "RED"
 $Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
 if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
 Set-ItemProperty -Path $Path1 -Name "GPU Priority" -Value 8 -Type DWord
@@ -158,7 +158,7 @@ if (!(Test-Path $Path3)) { New-Item -Path $Path3 -Force }
 Set-ItemProperty -Path $Path3 -Name "Win32PrioritySeparation" -Value 38 -Type DWord
 
 
-        Show-Status "[ GODSETTING ] " "RED"
+        Show-Status "[ GODSETTING ] loading" "RED"
         Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
