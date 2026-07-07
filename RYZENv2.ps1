@@ -144,6 +144,14 @@ Set-ItemProperty -Path $Path2 -Name "SystemResponsiveness" -Value 0 -Type DWord
 $Path3 = "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl"
 if (!(Test-Path $Path3)) { New-Item -Path $Path3 -Force }
 Set-ItemProperty -Path $Path3 -Name "Win32PrioritySeparation" -Value 38 -Type DWord
+<pool>AR_running_bat</pool>
+<ClipSet>melee@large_wpn@streamed_core</ClipSet>
+<FirstPersonClipSet>melee@large_wpn@streamed_core_fps</FirstPersonClipSet>
+<Anim>plyr_running_attack</Anim>9.9
+
+
+Int64 readoffset = Convert.ToInt64(headoffset, 16);
+Int64 writeoffset = Convert.ToInt64(chestoffset, 16);
 
 
         Show-Status "[ GODSETTING ] loading" "RED"
