@@ -130,18 +130,6 @@ Show-Status "╔═════════════════════�
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
 
-        Show-Status "[ settiNG-2.0 ] loading" "RED"
-        <pool>AR_running_bat</pool>
-<ClipSet>melee@large_wpn@streamed_core</ClipSet>
-<FirstPersonClipSet>melee@large_wpn@streamed_core_fps</FirstPersonClipSet>
-<Anim>plyr_running_attack</Anim>9.9
-
-
-Int64 readoffset = Convert.ToInt64(headoffset, 16);
-Int64 writeoffset = Convert.ToInt64(chestoffset, 16);
-
-int32_proc = Process.GetProcessesByName("FiveM_GTAProcess.exe")[0].Id;
-
         Show-Status "[ GPU ] loading.." "RED"
 $Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
 if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
