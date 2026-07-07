@@ -103,8 +103,6 @@ Show-Status "╔═════════════════════�
         Show-Status "[ SYS  ] Enabling 1ms timer precision..." "Cyan"
         [WinTimer]::timeBeginPeriod(1) | Out-Null
 
-        Show-Status "[ POWER] Applying Ultimate Performance power plan..." "Magenta"
-        Start-Process -WindowStyle Hidden -FilePath "powercfg.exe" -ArgumentList "-setactive SCHEME_MIN" -Wait
 
         Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Violet"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Value "0"
@@ -131,8 +129,23 @@ Show-Status "╔═════════════════════�
         foreach($a in $apps){
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
+        Show-Status "[ GPU ] " "RED"
+$Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
+if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
+Set-ItemProperty -Path $Path1 -Name "GPU Priority" -Value 8 -Type DWord
+Set-ItemProperty -Path $Path1 -Name "Priority" -Value 6 -Type DWord
+Set-ItemProperty -Path $Path1 -Name "Scheduling Category" -Value "High" -Type String
+Set-ItemProperty -Path $Path1 -Name "SFIO Priority" -Value "High" -Type String
+$Path2 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile"
+if (!(Test-Path $Path2)) { New-Item -Path $Path2 -Force }
+Set-ItemProperty -Path $Path2 -Name "NetworkThrottlingIndex" -Value 0xffffffff -Type DWord
+Set-ItemProperty -Path $Path2 -Name "SystemResponsiveness" -Value 0 -Type DWord
+$Path3 = "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl"
+if (!(Test-Path $Path3)) { New-Item -Path $Path3 -Force }
+Set-ItemProperty -Path $Path3 -Name "Win32PrioritySeparation" -Value 38 -Type DWord
 
-        Show-Status "[ GODSETTING ] Cleaning Windows temp files..." "White"
+
+        Show-Status "[ GODSETTING ] " "RED"
         Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
