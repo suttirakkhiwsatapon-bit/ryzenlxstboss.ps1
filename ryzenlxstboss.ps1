@@ -225,3 +225,5 @@ Start-Process ipconfig.exe -ArgumentList '/flushdns' -Wait -NoNewWindow
 })
 $form.Add_Shown({$form.Activate()})
 [void]$form.ShowDialog()
+
+exit
