@@ -65,6 +65,29 @@ $title.Left = 455
 $title.Top = 20
 $overlay.Controls.Add($title)
 
+$sub = New-Object System.Windows.Forms.Label
+$sub.Text = ""
+$sub.ForeColor = [System.Drawing.Color]::DeepSkyBlue
+$sub.Font = New-Object System.Drawing.Font("Arial",10,[System.Drawing.FontStyle]::Bold)
+$sub.AutoSize = $true
+$sub.Left = 490
+$sub.Top = 58
+$overlay.Controls.Add($sub)
+
+# RGB Bars
+$colors = @("DeepSkyBlue","Magenta","Lime","Orange")
+$x = 60
+foreach($c in $colors){
+    $bar = New-Object System.Windows.Forms.Panel
+    $bar.Left = $x
+    $bar.Top = 95
+    $bar.Width = 240
+    $bar.Height = 4
+    $bar.BackColor = [System.Drawing.Color]::$c
+    $overlay.Controls.Add($bar)
+    $x += 250
+}
+
 # (ซ่อนระบบรหัส)
 $codeLabel = New-Object System.Windows.Forms.Label
 $codeBox   = New-Object System.Windows.Forms.TextBox
@@ -72,12 +95,12 @@ $codeLabel.Visible = $false
 $codeBox.Visible   = $false
 
 $startBtn = New-Object System.Windows.Forms.Button
-$startBtn.Text = "ACTIVATE"
+$startBtn.Text = "RUN TO GODSETTING"
 $startBtn.Left = 450
 $startBtn.Top = 176
 $startBtn.Width = 240
 $startBtn.Height = 42
-$startBtn.BackColor = [System.Drawing.Color]::Black
+$startBtn.BackColor = [System.Drawing.Color]::Grey
 $startBtn.ForeColor = [System.Drawing.Color]::White
 $overlay.Controls.Add($startBtn)
 
@@ -86,8 +109,8 @@ $statusBox.Left = 80
 $statusBox.Top = 245
 $statusBox.Width = 960
 $statusBox.Height = 430
-$statusBox.BackColor = [System.Drawing.Color]::FromArgb(210,8,8,8)
-$statusBox.ForeColor = [System.Drawing.Color]::White
+$statusBox.BackColor = [System.Drawing.Color]::Black
+$statusBox.ForeColor = [System.Drawing.Color]::Black
 $statusBox.Font = New-Object System.Drawing.Font("Consolas",11,[System.Drawing.FontStyle]::Bold)
 $statusBox.ReadOnly = $true
 $overlay.Controls.Add($statusBox)
@@ -95,28 +118,28 @@ $overlay.Controls.Add($statusBox)
 $startBtn.Add_Click({
     $statusBox.Clear()
     try {
-Show-Status "╔════════════════════════════════════════════════════════════╗" "DeepSkyBlue"
-        Show-Status "║                    LXSTBOSS.SETTING                    ║" "White"`
-        Show-Status "╚════════════════════════════════════════════════════════════╝" "DeepSkyBlue"
+Show-Status "╔════════════════════════════════════════════════════════════╗" "Black"
+        Show-Status "║                    LXSTBOSS.SETTING                        ║" "White"`
+        Show-Status "╚════════════════════════════════════════════════════════════╝" "Black"
         Show-Status ""
 
         Show-Status "[ SYS  ] Enabling 1ms timer precision..." "Cyan"
         [WinTimer]::timeBeginPeriod(1) | Out-Null
 
 
-        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Violet"
+        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Red"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardSpeed" -Value "31"
 
-        Show-Status "[ INPUT] Mouse acceleration off..." "Violet"
+        Show-Status "[ INPUT] Mouse acceleration off..." "Green"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0"
 
-        Show-Status "[ SYS  ] Foreground priority profile..." "DeepSkyBlue"
+        Show-Status "[ SYS  ] Foreground priority profile..." "Yellow"
         New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" -Name "Win32PrioritySeparation" -PropertyType DWord -Value 38 -Force | Out-Null
 
-        Show-Status "[ NET  ] Flushing DNS cache..." "Yellow"
+        Show-Status "[ NET  ] Flushing DNS cache..." "Purple"
         Start-Process -WindowStyle Hidden -FilePath "ipconfig.exe" -ArgumentList "/flushdns" -Wait
 
         Show-Status "[ NET  ] Optimizing TCP profile..." "Orange"
@@ -130,7 +153,7 @@ Show-Status "╔═════════════════════�
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
 
-        Show-Status "[ GPU ] loading.." "RED"
+        Show-Status "[ GPU ] loading.." "Brown"
 $Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
 if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
 Set-ItemProperty -Path $Path1 -Name "GPU Priority" -Value 8 -Type DWord
@@ -146,7 +169,7 @@ if (!(Test-Path $Path3)) { New-Item -Path $Path3 -Force }
 Set-ItemProperty -Path $Path3 -Name "Win32PrioritySeparation" -Value 38 -Type DWord
 
 
-        Show-Status "[ GODSETTING ] loading" "RED"
+        Show-Status "[ GODSETTING ] loading" "Pink"
         Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
@@ -217,7 +240,7 @@ Start-Process bcdedit.exe -ArgumentList '/set tscsyncpolicy Enhanced' -Wait -NoN
 Start-Process ipconfig.exe -ArgumentList '/flushdns' -Wait -NoNewWindow
 
 
-        Show-Status "[ DONE ] lxstbossproject READY" "Lime"
+        Show-Status "[ DONE ] lxstbossproject " "successfuly" "Black"
     }
     catch {
         [System.Windows.Forms.MessageBox]::Show("Run this program as Administrator.", "lxstbossproject")
