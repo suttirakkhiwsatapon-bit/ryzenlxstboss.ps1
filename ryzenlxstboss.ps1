@@ -119,7 +119,7 @@ $startBtn.Add_Click({
     $statusBox.Clear()
     try {
 Show-Status "╔════════════════════════════════════════════════════════════╗" "Black"
-        Show-Status "║                    LXSTBOSS.SETTING                        ║" "White"`
+        Show-Status "║                    LXSTBOSS_SETTING                        ║" "White"`
         Show-Status "╚════════════════════════════════════════════════════════════╝" "Black"
         Show-Status ""
 
