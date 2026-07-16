@@ -134,10 +134,7 @@ Show-Status "╔═════════════════════�
         Show-Status "[ INPUT] Mouse acceleration off..." "Green"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Value "0"
-        Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0"
-
-        Show-Status "[ SYS  ] Foreground priority profile..." "Yellow"
-        New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\PriorityControl" -Name "Win32PrioritySeparation" -PropertyType DWord -Value 38 -Force | Out-Null
+        Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0
 
         Show-Status "[ NET  ] Flushing DNS cache..." "Purple"
         Start-Process -WindowStyle Hidden -FilePath "ipconfig.exe" -ArgumentList "/flushdns" -Wait
