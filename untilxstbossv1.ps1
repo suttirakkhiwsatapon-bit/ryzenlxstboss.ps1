@@ -65,29 +65,6 @@ $title.Left = 455
 $title.Top = 20
 $overlay.Controls.Add($title)
 
-$sub = New-Object System.Windows.Forms.Label
-$sub.Text = ""
-$sub.ForeColor = [System.Drawing.Color]::DeepSkyBlue
-$sub.Font = New-Object System.Drawing.Font("Arial",10,[System.Drawing.FontStyle]::Bold)
-$sub.AutoSize = $true
-$sub.Left = 490
-$sub.Top = 58
-$overlay.Controls.Add($sub)
-
-# RGB Bars
-$colors = @("DeepSkyBlue","Magenta","Lime","Orange")
-$x = 60
-foreach($c in $colors){
-    $bar = New-Object System.Windows.Forms.Panel
-    $bar.Left = $x
-    $bar.Top = 95
-    $bar.Width = 240
-    $bar.Height = 4
-    $bar.BackColor = [System.Drawing.Color]::$c
-    $overlay.Controls.Add($bar)
-    $x += 250
-}
-
 # (ซ่อนระบบรหัส)
 $codeLabel = New-Object System.Windows.Forms.Label
 $codeBox   = New-Object System.Windows.Forms.TextBox
@@ -95,12 +72,12 @@ $codeLabel.Visible = $false
 $codeBox.Visible   = $false
 
 $startBtn = New-Object System.Windows.Forms.Button
-$startBtn.Text = "RUN TO GODSETTING"
+$startBtn.Text = "ACTIVATE"
 $startBtn.Left = 450
 $startBtn.Top = 176
 $startBtn.Width = 240
 $startBtn.Height = 42
-$startBtn.BackColor = [System.Drawing.Color]::Grey
+$startBtn.BackColor = [System.Drawing.Color]::Black
 $startBtn.ForeColor = [System.Drawing.Color]::White
 $overlay.Controls.Add($startBtn)
 
@@ -109,7 +86,7 @@ $statusBox.Left = 80
 $statusBox.Top = 245
 $statusBox.Width = 960
 $statusBox.Height = 430
-$statusBox.BackColor = [System.Drawing.Color]::Black
+$statusBox.BackColor = [System.Drawing.Color]::FromArgb(210,8,8,8)
 $statusBox.ForeColor = [System.Drawing.Color]::Black
 $statusBox.Font = New-Object System.Drawing.Font("Consolas",11,[System.Drawing.FontStyle]::Bold)
 $statusBox.ReadOnly = $true
@@ -118,25 +95,25 @@ $overlay.Controls.Add($statusBox)
 $startBtn.Add_Click({
     $statusBox.Clear()
     try {
-Show-Status "╔════════════════════════════════════════════════════════════╗" "Black"
-        Show-Status "║                    LXSTBOSS_SETTING                        ║" "White"`
-        Show-Status "╚════════════════════════════════════════════════════════════╝" "Black"
+Show-Status "╔════════════════════════════════════════════════════════════╗" "DeepSkyBlue"
+        Show-Status "║                    LXSTBOSS.SETTING                    ║" "White"`
+        Show-Status "╚════════════════════════════════════════════════════════════╝" "DeepSkyBlue"
         Show-Status ""
 
         Show-Status "[ SYS  ] Enabling 1ms timer precision..." "Cyan"
         [WinTimer]::timeBeginPeriod(1) | Out-Null
 
 
-        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Red"
+        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Violet"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardSpeed" -Value "31"
 
-        Show-Status "[ INPUT] Mouse acceleration off..." "Green"
+        Show-Status "[ INPUT] Mouse acceleration off..." "Violet"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Value "0"
-        Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0
-
-        Show-Status "[ NET  ] Flushing DNS cache..." "Purple"
+        Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0"
+        
+        Show-Status "[ NET  ] Flushing DNS cache..." "Yellow"
         Start-Process -WindowStyle Hidden -FilePath "ipconfig.exe" -ArgumentList "/flushdns" -Wait
 
         Show-Status "[ NET  ] Optimizing TCP profile..." "Orange"
@@ -150,7 +127,7 @@ Show-Status "╔═════════════════════�
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
 
-        Show-Status "[ GPU ] loading.." "Brown"
+        Show-Status "[ GPU ] loading.." "RED"
 $Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
 if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
 Set-ItemProperty -Path $Path1 -Name "GPU Priority" -Value 8 -Type DWord
@@ -166,7 +143,7 @@ if (!(Test-Path $Path3)) { New-Item -Path $Path3 -Force }
 Set-ItemProperty -Path $Path3 -Name "Win32PrioritySeparation" -Value 38 -Type DWord
 
 
-        Show-Status "[ GODSETTING ] loading" "Pink"
+        Show-Status "[ GODSETTING ] loading" "RED"
         Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseSpeed /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold1 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
 Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Mouse" /v MouseThreshold2 /t REG_SZ /d 0 /f' -Wait -NoNewWindow
@@ -236,8 +213,27 @@ Start-Process bcdedit.exe -ArgumentList '/set tscsyncpolicy Enhanced' -Wait -NoN
 
 Start-Process ipconfig.exe -ArgumentList '/flushdns' -Wait -NoNewWindow
 
+Show-Status "[ internet ] loading.." "Green"
+Start-Process netsh.exe -ArgumentList 'int tcp set global autotuninglevel=normal' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global rss=enabled' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global ecncapability=disabled' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 4294967295 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global autotuninglevel=normal' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global rss=enabled' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global ecncapability=disabled' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-h off' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-setacvalueindex scheme_current SUB_USB USBSELECTIVE SUSPEND 0' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-S scheme_current' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v TcpDelAckTicks /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v SynAttackProtect /t REG_DWORD /d 1 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v TcpDelAckTicks /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v SynAttackProtect /t REG_DWORD /d 1 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseDuration /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseThreshold1 /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseThreshold2 /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
 
-        Show-Status "[ DONE ] lxstbossproject " "successfuly" "Black"
+        Show-Status "[ DONE ] lxstbossproject READY" "Lime"
     }
     catch {
         [System.Windows.Forms.MessageBox]::Show("Run this program as Administrator.", "lxstbossproject")
