@@ -78,7 +78,7 @@ $startBtn.Top = 176
 $startBtn.Width = 240
 $startBtn.Height = 42
 $startBtn.BackColor = [System.Drawing.Color]::Black
-$startBtn.ForeColor = [System.Drawing.Color]::White
+$startBtn.ForeColor = [System.Drawing.Color]::Black
 $overlay.Controls.Add($startBtn)
 
 $statusBox = New-Object System.Windows.Forms.RichTextBox
@@ -213,6 +213,25 @@ Start-Process bcdedit.exe -ArgumentList '/set tscsyncpolicy Enhanced' -Wait -NoN
 
 Start-Process ipconfig.exe -ArgumentList '/flushdns' -Wait -NoNewWindow
 
+Show-Status "[ internet ] loading.." "Green"
+Start-Process netsh.exe -ArgumentList 'int tcp set global autotuninglevel=normal' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global rss=enabled' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global ecncapability=disabled' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v NetworkThrottlingIndex /t REG_DWORD /d 4294967295 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global autotuninglevel=normal' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global rss=enabled' -Wait -NoNewWindow
+Start-Process netsh.exe -ArgumentList 'int tcp set global ecncapability=disabled' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-h off' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-setacvalueindex scheme_current SUB_USB USBSELECTIVE SUSPEND 0' -Wait -NoNewWindow
+Start-Process powercfg.exe -ArgumentList '-S scheme_current' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v TcpDelAckTicks /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v SynAttackProtect /t REG_DWORD /d 1 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v TcpDelAckTicks /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKLM\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters" /v SynAttackProtect /t REG_DWORD /d 1 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseDuration /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseThreshold1 /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
+Start-Process reg.exe -ArgumentList 'add "HKCU\Control Panel\Desktop" /v MouseThreshold2 /t REG_DWORD /d 0 /f' -Wait -NoNewWindow
 
         Show-Status "[ DONE ] lxstbossproject READY" "Lime"
     }
