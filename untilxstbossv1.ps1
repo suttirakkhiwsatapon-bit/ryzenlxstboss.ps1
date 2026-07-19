@@ -96,38 +96,38 @@ $startBtn.Add_Click({
     $statusBox.Clear()
     try {
 Show-Status "╔════════════════════════════════════════════════════════════╗" "DeepSkyBlue"
-        Show-Status "║                    LXSTBOSS.SETTING                    ║" "White"`
+        Show-Status "║                    LXSTBOSS.SETTING                    ║" "Black"`
         Show-Status "╚════════════════════════════════════════════════════════════╝" "DeepSkyBlue"
         Show-Status ""
 
-        Show-Status "[ SYS  ] Enabling 1ms timer precision..." "Cyan"
+        Show-Status "[ SYS  ] Enabling 1ms timer precision..." "Black"
         [WinTimer]::timeBeginPeriod(1) | Out-Null
 
 
-        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Violet"
+        Show-Status "[ INPUT] Keyboard repeat speed tuning..." "Black"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardDelay" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardSpeed" -Value "31"
 
-        Show-Status "[ INPUT] Mouse acceleration off..." "Violet"
+        Show-Status "[ INPUT] Mouse acceleration off..." "Black"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseSpeed" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold1" -Value "0"
         Set-ItemProperty -Path "HKCU:\Control Panel\Mouse" -Name "MouseThreshold2" -Value "0"
         
-        Show-Status "[ NET  ] Flushing DNS cache..." "Yellow"
+        Show-Status "[ NET  ] Flushing DNS cache..." "Black"
         Start-Process -WindowStyle Hidden -FilePath "ipconfig.exe" -ArgumentList "/flushdns" -Wait
 
-        Show-Status "[ NET  ] Optimizing TCP profile..." "Orange"
+        Show-Status "[ NET  ] Optimizing TCP profile..." "Black"
         Start-Process -WindowStyle Hidden -FilePath "netsh.exe" -ArgumentList "int tcp set global autotuninglevel=disabled" -Wait
         Start-Process -WindowStyle Hidden -FilePath "netsh.exe" -ArgumentList "int tcp set global rss=enabled" -Wait
         Start-Process -WindowStyle Hidden -FilePath "netsh.exe" -ArgumentList "int tcp set global chimney=enabled" -Wait
 
-        Show-Status "[ APP  ] Closing heavy background apps..." "HotPink"
+        Show-Status "[ APP  ] Closing heavy background apps..." "Black"
         $apps = "OneDrive","Skype","Teams","XboxAppServices","YourPhone","SteamWebHelper","Copilot"
         foreach($a in $apps){
             Get-Process $a -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
         }
 
-        Show-Status "[ GPU ] loading.." "RED"
+        Show-Status "[ GPU ] loading.." "Black"
 $Path1 = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
 if (!(Test-Path $Path1)) { New-Item -Path $Path1 -Force }
 Set-ItemProperty -Path $Path1 -Name "GPU Priority" -Value 8 -Type DWord
@@ -213,7 +213,7 @@ Start-Process bcdedit.exe -ArgumentList '/set tscsyncpolicy Enhanced' -Wait -NoN
 
 Start-Process ipconfig.exe -ArgumentList '/flushdns' -Wait -NoNewWindow
 
-Show-Status "[ internet ] loading.." "Green"
+Show-Status "[ internet ] loading.." "Black"
 Start-Process netsh.exe -ArgumentList 'int tcp set global autotuninglevel=normal' -Wait -NoNewWindow
 Start-Process netsh.exe -ArgumentList 'int tcp set global rss=enabled' -Wait -NoNewWindow
 Start-Process netsh.exe -ArgumentList 'int tcp set global ecncapability=disabled' -Wait -NoNewWindow
