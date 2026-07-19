@@ -78,7 +78,7 @@ $startBtn.Top = 176
 $startBtn.Width = 240
 $startBtn.Height = 42
 $startBtn.BackColor = [System.Drawing.Color]::Black
-$startBtn.ForeColor = [System.Drawing.Color]::Black
+$startBtn.ForeColor = [System.Drawing.Color]::White
 $overlay.Controls.Add($startBtn)
 
 $statusBox = New-Object System.Windows.Forms.RichTextBox
@@ -87,7 +87,7 @@ $statusBox.Top = 245
 $statusBox.Width = 960
 $statusBox.Height = 430
 $statusBox.BackColor = [System.Drawing.Color]::FromArgb(210,8,8,8)
-$statusBox.ForeColor = [System.Drawing.Color]::White
+$statusBox.ForeColor = [System.Drawing.Color]::Black
 $statusBox.Font = New-Object System.Drawing.Font("Consolas",11,[System.Drawing.FontStyle]::Bold)
 $statusBox.ReadOnly = $true
 $overlay.Controls.Add($statusBox)
